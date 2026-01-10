@@ -1,14 +1,286 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUCKY PICK – Lotto Generator</title>
+
+<style>
+ @import url('https://fonts.googleapis.com/css2?family=Inter:wght @400;600;800&display=swap');
+
+* { box-sizing: border-box; }
+
+/* =====================
+   THEME VARIABLES
+===================== */
+:root {
+  --bg-main: radial-gradient(circle at top, #1e293b, #020617);
+  --card-bg: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  --card-soft: rgba(255,255,255,0.12);
+  --text-main: #ffffff;
+  --text-sub: #cbd5f5;
+  --border-soft: rgba(255,255,255,0.15);
+}
+
+[data-theme="light"] {
+  --bg-main: linear-gradient(180deg, #f8fafc, #e5e7eb);
+  --card-bg: #ffffff;
+  --card-soft: #f1f5f9;
+  --text-main: #020617;
+  --text-sub: #475569;
+  --border-soft: #e5e7eb;
+}
+
+/* =====================
+   BASE
+===================== */
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui;
+  background: var(--bg-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.container {
+  width: 100%;
+  max-width: 760px;
+  padding: 40px;
+  border-radius: 20px;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+/* =====================
+   HEADER
+===================== */
+h1 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 800;
+}
+
+.subtitle {
+  margin-top: 10px;
+  color: var(--text-sub);
+}
+
+/* =====================
+   THEME TOGGLE
+===================== */
+.theme-toggle {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* =====================
+   MAIN BUTTON
+===================== */
+button.main {
+  margin-top: 30px;
+  padding: 18px 30px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  color: #020617;
+  background: linear-gradient(135deg, #facc15, #fde047);
+  box-shadow: 0 10px 30px rgba(250,204,21,0.5);
+}
+
+/* =====================
+   RESULTS
+===================== */
+.results {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 카드 단위 */
+.set-card {
+  background: var(--card-soft);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 16px 18px 18px;
+  animation: fadeUp 0.6s ease forwards;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.set-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.25);
+}
+
+/* 카드 헤더 */
+.set-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.set-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+  color: white;
+}
+
+/* 번호 줄 */
+.set {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ball {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #020617;
+}
+
+/* 번호대별 색상 */
+.yellow { background: radial-gradient(circle at top, #fff9c2, #facc15); box-shadow: 0 0 12px rgba(250,204,21,.9); }
+.blue   { background: radial-gradient(circle at top, #dbeafe, #60a5fa); box-shadow: 0 0 12px rgba(96,165,250,.9); }
+.red    { background: radial-gradient(circle at top, #fee2e2, #f87171); box-shadow: 0 0 12px rgba(248,113,113,.9); }
+.gray   { background: radial-gradient(circle at top, #e5e7eb, #9ca3af); box-shadow: 0 0 12px rgba(156,163,175,.9); }
+.green  { background: radial-gradient(circle at top, #dcfce7, #4ade80); box-shadow: 0 0 12px rgba(74,222,128,.9); }
+
+/* =====================
+   FOOTER
+===================== */
+.logic {
+  margin-top: 40px;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+footer {
+  margin-top: 30px;
+  font-size: 12px;
+  color: var(--text-sub);
+  text-align: center;
+}
+
+/* =====================
+   ANIMATION
+===================== */
+ @keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================
+   RESPONSIVE
+===================== */
+ @media (max-width: 768px) {
+  .container { padding: 28px; }
+  h1 { font-size: 32px; }
+  .ball { width: 44px; height: 44px; font-size: 16px; }
+}
+
+ @media (max-width: 480px) {
+  .container { padding: 20px; border-radius: 16px; }
+  h1 { font-size: 26px; }
+  .subtitle { font-size: 14px; }
+  .ball { width: 40px; height: 40px; font-size: 15px; }
+  .theme-toggle { top: 16px; right: 16px; font-size: 12px; }
+}
+</style>
 </head>
+
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+<div class="container">
+
+  <button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+
+  <h1>🎰 LUCKY PICK</h1>
+  <p class="subtitle">오늘의 행운을 카드로 받아보세요</p>
+
+  <button class="main" onclick="generate()">행운의 번호 받기</button>
+
+  <div class="results" id="result"></div>
+
+  <div class="logic">
+    🟡 1~10 | 🔵 11~20 | 🔴 21~30 | ⚫ 31~40 | 🟢 41~45
+  </div>
+
+  <footer>
+    Random pick only. Luck decides everything.
+  </footer>
+</div>
+
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  root.setAttribute("data-theme",
+    root.getAttribute("data-theme") === "dark" ? "light" : "dark"
+  );
+}
+
+function getColorClass(n) {
+  if (n <= 10) return "yellow";
+  if (n <= 20) return "blue";
+  if (n <= 30) return "red";
+  if (n <= 40) return "gray";
+  return "green";
+}
+
+function generateOneSet() {
+  const set = new Set();
+  while (set.size < 6) set.add(Math.floor(Math.random() * 45) + 1);
+  return [...set].sort((a, b) => a - b);
+}
+
+function generate() {
+  const result = document.getElementById("result");
+  result.innerHTML = "";
+
+  for (let i = 0; i < 5; i++) {
+    const nums = generateOneSet();
+
+    const card = document.createElement("div");
+    card.className = "set-card";
+    card.style.animationDelay = `${i * 0.15}s`;
+
+    card.innerHTML = `
+      <div class="set-header">
+        <div class="set-badge">SET ${String(i + 1).padStart(2, "0")}</div>
+      </div>
+      <div class="set">
+        ${nums.map(n => `<div class="ball ${getColorClass(n)}">${n}</div>`).join("")}
+      </div>
+    `;
+
+    result.appendChild(card);
+  }
+}
+</script>
+
 </body>
 </html>
