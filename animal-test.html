@@ -27,16 +27,25 @@
         const URL = "https://teachablemachine.withgoogle.com/models/yvJn2POqH/";
         let model, webcam, labelContainer, maxPredictions;
         const statusDiv = document.getElementById("status");
-        let initCalled = false; // Flag to prevent multiple init calls
+        let initCalled = false;
 
         document.addEventListener("DOMContentLoaded", function() {
-            // Check if tmImage and tf are available after a short delay
+            statusDiv.innerHTML = "페이지 로드 완료. 라이브러리 확인 중...";
+            console.log("DOM Content Loaded. Checking libraries...");
+
             setTimeout(() => {
-                if (typeof window.tmImage === 'undefined' || typeof window.tf === 'undefined') {
-                    statusDiv.innerHTML = "오류: Teachable Machine 또는 TensorFlow 라이브러리가 로드되지 않았습니다. 인터넷 연결을 확인하거나 잠시 후 다시 시도하십시오.";
-                    document.querySelector('button').disabled = true; // Disable button if libraries not loaded
+                const isTmImageDefined = typeof window.tmImage !== 'undefined';
+                const isTfDefined = typeof window.tf !== 'undefined';
+                console.log(`window.tmImage defined: ${isTmImageDefined}`);
+                console.log(`window.tf defined: ${isTfDefined}`);
+
+                if (!isTmImageDefined || !isTfDefined) {
+                    statusDiv.innerHTML = "오류: Teachable Machine 또는 TensorFlow 라이브러리가 로드되지 않았습니다. 개발자 콘솔을 확인하여 네트워크 오류를 확인하십시오.";
+                    document.querySelector('button').disabled = true;
+                    console.error("Critical Error: tmImage or tf library not loaded. Please check network requests in browser developer console for errors (e.g., failed to load script, CORS issues).");
                 } else {
-                    // Make sure init() is only called once via button click
+                    statusDiv.innerHTML = "라이브러리 로드 완료. '시작하기' 버튼을 누르세요.";
+                    console.log("Teachable Machine and TensorFlow libraries loaded. Ready to initialize.");
                     document.querySelector('button').onclick = function() {
                         if (!initCalled) {
                             init();
@@ -44,7 +53,7 @@
                         }
                     };
                 }
-            }, 1000); // Wait for 1 second to ensure scripts are parsed and executed
+            }, 1500);
         });
 
 
@@ -52,6 +61,7 @@
             try {
                 document.querySelector('button').style.display = 'none';
                 statusDiv.innerHTML = "모델을 불러오는 중입니다...";
+                console.log("Initializing: Loading model...");
 
                 const modelURL = URL + "model.json";
                 const metadataURL = URL + "metadata.json";
@@ -59,12 +69,14 @@
                 model = await tmImage.load(modelURL, metadataURL);
                 maxPredictions = model.getTotalClasses();
                 statusDiv.innerHTML = "웹캠을 준비하는 중입니다...";
+                console.log("Model loaded. Setting up webcam...");
 
                 const flip = true;
                 webcam = new tmImage.Webcam(400, 400, flip);
                 await webcam.setup();
                 await webcam.play();
                 statusDiv.innerHTML = "준비 완료! 예측 시작...";
+                console.log("Webcam ready. Starting prediction loop.");
                 window.requestAnimationFrame(loop);
 
                 document.getElementById("webcam-container").appendChild(webcam.canvas);
@@ -73,8 +85,8 @@
                     labelContainer.appendChild(document.createElement("div"));
                 }
             } catch (e) {
-                console.error(e);
-                statusDiv.innerHTML = "오류가 발생했습니다: " + e.message + ". 콘솔을 확인하십시오.";
+                console.error("Error during initialization:", e);
+                statusDiv.innerHTML = "오류가 발생했습니다: " + e.message + ". 개발자 콘솔을 확인하십시오.";
             }
         }
 
