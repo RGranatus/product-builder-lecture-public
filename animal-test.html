@@ -3,12 +3,26 @@
 <head>
     <title>Teachable Machine Image Model</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>Teachable Machine Image Model</div>
-    <button type="button" onclick="init()">Start</button>
-    <div id="webcam-container"></div>
-    <div id="label-container"></div>
+  <div class="main-wrapper">
+    <div class="container">
+      <div class="header-section">
+        <h1>동물상 테스트</h1>
+        <a href="index.html" class="main-link">로또 번호 생성기로 돌아가기</a>
+      </div>
+      <p class="subtitle">나는 어떤 동물과 닮았을까?</p>
+
+      <button type="button" class="main" onclick="init()">시작하기</button>
+
+      <div class="results">
+        <div id="webcam-container"></div>
+        <div id="label-container" class="label-container"></div>
+      </div>
+
+    </div>
+  </div>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script type="text/javascript">
