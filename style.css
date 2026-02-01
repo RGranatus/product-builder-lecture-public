@@ -58,6 +58,13 @@ body {
   position: relative;
 }
 
+.header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px; /* Add some margin to separate it from the subtitle */
+}
+
 /* =====================
    HEADER
 ===================== */
@@ -91,9 +98,9 @@ h1 {
    THEME TOGGLE
 ===================== */
 .theme-toggle {
-  position: absolute;
-  top: 24px;
-  right: 24px;
+  /* position: absolute; */
+  /* top: 24px; */
+  /* right: 24px; */
   background: none;
   border: 1px solid var(--border-soft);
   color: var(--text-main);
