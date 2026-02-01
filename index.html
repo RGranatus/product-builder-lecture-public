@@ -302,7 +302,12 @@ footer {
       </footer>
     </div>
 
-    <div class="form-container">
+    <div class="form-container" style="margin-top: 40px; text-align: center;">
+        <h3 style="margin-bottom: 20px;">💬 댓글</h3>
+        <div id="disqus_thread"></div>
+    </div>
+
+    <div class="form-container" style="margin-top: 40px; margin-bottom: 40px;">
         <h3>🤝 제휴 문의</h3>
         <p class="subtitle">멋진 아이디어가 있으신가요? 저희와 함께 현실로 만들어보세요.</p>
         <form id="contact-form" action="https://formspree.io/f/mpqlaekg" method="POST">
@@ -403,5 +408,20 @@ async function handleSubmit(event) {
 }
 form.addEventListener("submit", handleSubmit)
 </script>
+
+<script>
+    var disqus_config = function () {
+    this.page.url = window.location.href;
+    this.page.identifier = 'lotto-disqus-comments';
+    };
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://pbl-2.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<style>
 </body>
 </html>
