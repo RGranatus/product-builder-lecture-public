@@ -27,6 +27,26 @@
         const URL = "https://teachablemachine.withgoogle.com/models/yvJn2POqH/";
         let model, webcam, labelContainer, maxPredictions;
         const statusDiv = document.getElementById("status");
+        let initCalled = false; // Flag to prevent multiple init calls
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if tmImage and tf are available after a short delay
+            setTimeout(() => {
+                if (typeof window.tmImage === 'undefined' || typeof window.tf === 'undefined') {
+                    statusDiv.innerHTML = "오류: Teachable Machine 또는 TensorFlow 라이브러리가 로드되지 않았습니다. 인터넷 연결을 확인하거나 잠시 후 다시 시도하십시오.";
+                    document.querySelector('button').disabled = true; // Disable button if libraries not loaded
+                } else {
+                    // Make sure init() is only called once via button click
+                    document.querySelector('button').onclick = function() {
+                        if (!initCalled) {
+                            init();
+                            initCalled = true;
+                        }
+                    };
+                }
+            }, 1000); // Wait for 1 second to ensure scripts are parsed and executed
+        });
+
 
         async function init() {
             try {
@@ -44,7 +64,7 @@
                 webcam = new tmImage.Webcam(400, 400, flip);
                 await webcam.setup();
                 await webcam.play();
-                statusDiv.innerHTML = "준비 완료!";
+                statusDiv.innerHTML = "준비 완료! 예측 시작...";
                 window.requestAnimationFrame(loop);
 
                 document.getElementById("webcam-container").appendChild(webcam.canvas);
@@ -54,7 +74,7 @@
                 }
             } catch (e) {
                 console.error(e);
-                statusDiv.innerHTML = "오류가 발생했습니다: " + e.message;
+                statusDiv.innerHTML = "오류가 발생했습니다: " + e.message + ". 콘솔을 확인하십시오.";
             }
         }
 
