@@ -6,422 +6,877 @@
 <title>LUCKY PICK – Lotto Generator</title>
 
 <style>
+
  @import url('https://fonts.googleapis.com/css2?family=Inter:wght @400;600;800&display=swap');
+
+
 
 * { box-sizing: border-box; }
 
+
+
 /* =====================
+
    THEME VARIABLES
+
 ===================== */
+
 :root {
+
   --bg-main: radial-gradient(circle at top, #1e293b, #020617);
+
   --card-bg: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+
   --card-soft: rgba(255,255,255,0.12);
+
   --text-main: #ffffff;
+
   --text-sub: #cbd5f5;
+
   --border-soft: rgba(255,255,255,0.15);
+
 }
+
+
 
 [data-theme="light"] {
+
   --bg-main: linear-gradient(180deg, #f8fafc, #e5e7eb);
+
   --card-bg: #ffffff;
+
   --card-soft: #e2e8f0;
+
   --text-main: #020617;
+
   --text-sub: #334155;
+
   --border-soft: #cbd5e1;
+
 }
 
+
+
 /* =====================
+
    BASE
+
 ===================== */
+
 body {
+
   margin: 0;
+
   min-height: 100vh;
+
   font-family: 'Inter', system-ui;
+
   background: var(--bg-main);
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   color: var(--text-main);
+
   transition: background 0.4s ease, color 0.4s ease;
+
   padding: 40px 0;
+
 }
+
+
 
 .main-wrapper {
+
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
     justify-content: center;
+
     width: 100%;
+
 }
+
+
 
 .container {
+
   width: 100%;
+
   max-width: 760px;
+
   padding: 40px;
+
   border-radius: 20px;
+
   background: var(--card-bg);
+
   backdrop-filter: blur(10px);
+
   box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+
   position: relative;
+
 }
 
+
+
 /* =====================
+
    HEADER
+
 ===================== */
+
 h1 {
+
   margin: 0;
+
   font-size: 42px;
+
   font-weight: 800;
+
 }
+
+
 
 .subtitle {
+
   margin-top: 10px;
+
   color: var(--text-sub);
+
 }
 
+
+
+.main-link {
+
+    color: var(--text-main);
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    padding: 10px 16px;
+
+    border: 1px solid var(--border-soft);
+
+    border-radius: 12px;
+
+    transition: background-color 0.2s ease;
+
+}
+
+
+
+.main-link:hover {
+
+    background-color: var(--card-soft);
+
+}
+
+
+
 /* =====================
+
    THEME TOGGLE
+
 ===================== */
+
 .theme-toggle {
+
   position: absolute;
+
   top: 24px;
+
   right: 24px;
+
   background: none;
+
   border: 1px solid var(--border-soft);
+
   color: var(--text-main);
+
   padding: 8px 14px;
+
   border-radius: 20px;
+
   cursor: pointer;
+
   font-size: 14px;
+
 }
 
+
+
 /* =====================
+
    MAIN BUTTON
+
 ===================== */
+
 button.main {
+
   margin-top: 30px;
+
   padding: 18px 30px;
+
   font-size: 18px;
+
   font-weight: 700;
+
   border-radius: 14px;
+
   border: none;
+
   cursor: pointer;
+
   color: #020617;
+
   background: linear-gradient(135deg, #facc15, #fde047);
+
   box-shadow: 0 10px 30px rgba(250,204,21,0.5);
+
 }
 
+
+
 /* =====================
+
    RESULTS
+
 ===================== */
+
 .results {
+
   margin-top: 40px;
+
   display: flex;
+
   flex-direction: column;
+
   gap: 16px;
+
 }
+
+
 
 /* 카드 단위 */
+
 .set-card {
+
   background: var(--card-soft);
+
   border: 1px solid var(--border-soft);
+
   border-radius: 16px;
+
   padding: 16px 18px 18px;
+
   animation: fadeUp 0.6s ease forwards;
+
   transition: transform .2s ease, box-shadow .2s ease;
+
 }
+
+
 
 .set-card:hover {
+
   transform: translateY(-3px);
+
   box-shadow: 0 12px 30px rgba(0,0,0,.25);
+
 }
+
+
 
 /* 카드 헤더 */
+
 .set-header {
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   margin-bottom: 12px;
+
 }
+
+
 
 .set-badge {
+
   font-size: 12px;
+
   font-weight: 700;
+
   padding: 4px 10px;
+
   border-radius: 20px;
+
   background: linear-gradient(135deg, #6366f1, #22d3ee);
+
   color: white;
+
 }
+
+
 
 /* 번호 줄 */
+
 .set {
+
   display: flex;
+
   gap: 12px;
+
   flex-wrap: wrap;
+
 }
+
+
 
 .ball {
+
   width: 52px;
+
   height: 52px;
+
   border-radius: 50%;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   font-size: 18px;
+
   font-weight: 800;
+
   color: #020617;
+
 }
+
+
 
 /* 번호대별 색상 */
+
 .yellow { background: radial-gradient(circle at top, #fff9c2, #facc15); box-shadow: 0 0 12px rgba(250,204,21,.9); }
+
 .blue   { background: radial-gradient(circle at top, #dbeafe, #60a5fa); box-shadow: 0 0 12px rgba(96,165,250,.9); }
+
 .red    { background: radial-gradient(circle at top, #fee2e2, #f87171); box-shadow: 0 0 12px rgba(248,113,113,.9); }
+
 .gray   { background: radial-gradient(circle at top, #d1d5db, #9ca3af); box-shadow: 0 0 12px rgba(156,163,175,.9); }
+
 .green  { background: radial-gradient(circle at top, #dcfce7, #4ade80); box-shadow: 0 0 12px rgba(74,222,128,.9); }
 
+
+
 /* =====================
+
    FOOTER
+
 ===================== */
+
 .logic {
+
   margin-top: 40px;
+
   font-size: 14px;
+
   color: var(--text-sub);
+
 }
+
+
 
 footer {
+
   margin-top: 30px;
+
   font-size: 12px;
+
   color: var(--text-sub);
+
   text-align: center;
+
 }
 
+
+
 /* =====================
+
    ANIMATION
+
 ===================== */
+
  @keyframes fadeUp {
+
   from { opacity: 0; transform: translateY(12px); }
+
   to { opacity: 1; transform: translateY(0); }
+
 }
 
+
+
 /* =====================
+
    FORM STYLES
+
 ===================== */
+
 .form-container {
+
     width: 100%;
+
     max-width: 760px;
+
     padding: 40px;
+
 }
+
+
 
 .form-container h3 {
+
     font-size: 24px;
+
     font-weight: 700;
+
     margin: 0;
+
 }
+
+
 
 .form-group {
+
     margin-bottom: 20px;
+
 }
+
+
 
 .form-group label {
+
     display: block;
+
     font-size: 14px;
+
     color: var(--text-sub);
+
     margin-bottom: 8px;
+
 }
+
+
 
 .form-group input,
+
 .form-group textarea {
+
     width: 100%;
+
     padding: 12px;
+
     border-radius: 8px;
+
     border: 1px solid var(--border-soft);
+
     background-color: var(--card-soft);
+
     color: var(--text-main);
+
     font-size: 16px;
+
     font-family: 'Inter', system-ui;
+
 }
+
+
 
 .form-group input:focus,
+
 .form-group textarea:focus {
+
     outline: none;
+
     border-color: #facc15;
+
     box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.3);
+
 }
+
+
 
 #form-status {
+
     margin-top: 20px;
+
     font-size: 14px;
+
 }
 
+
+
 .form-container button.main {
+
     padding: 14px 24px;
+
     font-size: 16px;
+
     box-shadow: 0 5px 20px rgba(250,204,21,0.4);
+
 }
+
+
+
 
 
 /* =====================
+
    RESPONSIVE
+
 ===================== */
+
  @media (max-width: 768px) {
+
   .container, .form-container { padding: 28px; }
+
   h1 { font-size: 32px; }
+
   .ball { width: 44px; height: 44px; font-size: 16px; }
+
 }
+
+
 
  @media (max-width: 480px) {
+
   .container, .form-container { padding: 20px; border-radius: 16px; }
+
   h1 { font-size: 26px; }
+
   .subtitle { font-size: 14px; }
+
   .ball { width: 40px; height: 40px; font-size: 15px; }
+
   .theme-toggle { top: 16px; right: 16px; font-size: 12px; }
+
 }
+
 </style>
+
 </head>
 
+
+
 <body>
+
 <div class="main-wrapper">
+
     <div class="container">
+
+
 
       <button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
 
-      <h1>🎰 LUCKY PICK</h1>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+
+        <h1>🎰 LUCKY PICK</h1>
+
+        <a href="animal-test.html" class="main-link">동물상 테스트 하러가기</a>
+
+      </div>
+
       <p class="subtitle">오늘의 행운을 카드로 받아보세요</p>
+
+
 
       <button class="main" onclick="generate()">행운의 번호 받기</button>
 
+
+
       <div class="results" id="result"></div>
 
+
+
       <div class="logic">
+
         🟡 1~10 | 🔵 11~20 | 🔴 21~30 | ⚪ 31~40 | 🟢 41~45
+
       </div>
+
+
 
       <footer>
+
         Random pick only. Luck decides everything.
+
       </footer>
+
     </div>
+
+
 
     <div class="form-container" style="margin-top: 40px; text-align: center;">
+
         <h3 style="margin-bottom: 20px;">💬 댓글</h3>
+
         <div id="disqus_thread"></div>
+
     </div>
+
+
 
     <div class="form-container" style="margin-top: 40px; margin-bottom: 40px;">
+
         <h3>🤝 제휴 문의</h3>
+
         <p class="subtitle">멋진 아이디어가 있으신가요? 저희와 함께 현실로 만들어보세요.</p>
+
         <form id="contact-form" action="https://formspree.io/f/mpqlaekg" method="POST">
+
             <div class="form-group">
+
                 <label for="name">이름</label>
+
                 <input type="text" id="name" name="name" required>
+
             </div>
+
             <div class="form-group">
+
                 <label for="email">이메일</label>
+
                 <input type="email" id="email" name="email" required>
+
             </div>
+
             <div class="form-group">
+
                 <label for="message">내용</label>
+
                 <textarea id="message" name="message" rows="4" required></textarea>
+
             </div>
+
             <button type="submit" class="main">문의하기</button>
+
         </form>
+
         <div id="form-status"></div>
+
     </div>
+
 </div>
 
+
+
 <script>
+
 function toggleTheme() {
+
   const root = document.documentElement;
+
   root.setAttribute("data-theme",
+
     root.getAttribute("data-theme") === "dark" ? "light" : "dark"
+
   );
+
 }
+
+
 
 function getColorClass(n) {
+
   if (n <= 10) return "yellow";
+
   if (n <= 20) return "blue";
+
   if (n <= 30) return "red";
+
   if (n <= 40) return "gray";
+
   return "green";
+
 }
+
+
 
 function generateOneSet() {
+
   const set = new Set();
+
   while (set.size < 6) set.add(Math.floor(Math.random() * 45) + 1);
+
   return [...set].sort((a, b) => a - b);
+
 }
+
+
 
 function generate() {
+
   const result = document.getElementById("result");
+
   result.innerHTML = "";
 
+
+
   for (let i = 0; i < 5; i++) {
+
     const nums = generateOneSet();
 
+
+
     const card = document.createElement("div");
+
     card.className = "set-card";
+
     card.style.animationDelay = `${i * 0.15}s`;
 
+
+
     card.innerHTML = `
+
       <div class="set-header">
+
         <div class="set-badge">SET ${String(i + 1).padStart(2, "0")}</div>
+
       </div>
+
       <div class="set">
+
         ${nums.map(n => `<div class="ball ${getColorClass(n)}">${n}</div>`).join("")}
+
       </div>
+
     `;
 
+
+
     result.appendChild(card);
+
   }
+
 }
+
+
 
 // Formspree Submission
+
 const form = document.getElementById('contact-form');
-const formStatus = document.getElementById('form-status');
+
+const formStatus =
+
+ document.getElementById('form-status');
+
+
 
 async function handleSubmit(event) {
+
   event.preventDefault();
+
   const data = new FormData(event.target);
+
   try {
+
     const response = await fetch(event.target.action, {
+
       method: form.method,
+
       body: data,
+
       headers: {
+
           'Accept': 'application/json'
+
       }
+
     });
+
     if (response.ok) {
+
       formStatus.innerHTML = "문의가 성공적으로 전송되었습니다. 감사합니다!";
+
       form.reset();
+
     } else {
+
       response.json().then(data => {
+
         if (Object.hasOwn(data, 'errors')) {
+
           formStatus.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+
         } else {
+
           formStatus.innerHTML = "おっと！フォームの送信で問題が発生しました。";
+
         }
+
       })
+
     }
+
   } catch (error) {
+
     formStatus.innerHTML = "おっと！フォームの送信で問題が発生しました。";
+
   }
+
 }
+
 form.addEventListener("submit", handleSubmit)
+
 </script>
+
+
 
 <script>
+
     var disqus_config = function () {
+
     this.page.url = window.location.href;
+
     this.page.identifier = 'lotto-disqus-comments';
+
     };
+
     (function() { // DON'T EDIT BELOW THIS LINE
+
     var d = document, s = d.createElement('script');
+
     s.src = 'https://pbl-2.disqus.com/embed.js';
+
     s.setAttribute('data-timestamp', +new Date());
+
     (d.head || d.body).appendChild(s);
+
     })();
+
 </script>
 
+
+
 <style>
+
 </body>
+
 </html>
