@@ -72,6 +72,16 @@
         <a href="animal-test.html" class="main-link">동물상 테스트 하러가기</a>
       </div>
 
+      <div class="share-buttons-container">
+        <p class="subtitle">이 페이지를 친구들과 공유하세요!</p>
+        <div class="share-buttons">
+            <button class="share-button facebook" onclick="shareOnFacebook()"><img src="/icons/facebook.svg" alt="Share on Facebook"></button>
+            <button class="share-button twitter" onclick="shareOnTwitter()"><img src="/icons/twitter.svg" alt="Share on Twitter"></button>
+            <button class="share-button kakaotalk" onclick="shareOnKakaoTalk()"><img src="/icons/kakaotalk.svg" alt="Share on KakaoTalk"></button>
+            <button class="share-button copy-clipboard" onclick="copyToClipboard()"><img src="/icons/clipboard.svg" alt="Copy to Clipboard"></button>
+        </div>
+      </div>
+
       <p class="subtitle">오늘의 행운을 카드로 받아보세요</p>
 
       <p class="description">
@@ -381,27 +391,41 @@
 
 
 <script>
-
     var disqus_config = function () {
-
     this.page.url = window.location.href;
-
     this.page.identifier = 'lotto-disqus-comments';
-
     };
-
     (function() { // DON'T EDIT BELOW THIS LINE
-
     var d = document, s = d.createElement('script');
-
     s.src = 'https://pbl-2.disqus.com/embed.js';
-
     s.setAttribute('data-timestamp', +new Date());
-
     (d.head || d.body).appendChild(s);
-
     })();
 
+    function shareOnFacebook() {
+      const url = encodeURIComponent(window.location.href);
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+    }
+
+    function shareOnTwitter() {
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent(document.title);
+      window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+    }
+
+    function copyToClipboard() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('URL이 클립보드에 복사되었습니다!');
+      }, () => {
+        alert('URL 복사에 실패했습니다.');
+      });
+    }
+
+    function shareOnKakaoTalk() {
+        // Kakao SDK and app key are required for this to work.
+        // I will just show an alert for now.
+        alert('카카오톡 공유 기능은 현재 준비 중입니다.');
+    }
 </script>
 
 

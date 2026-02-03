@@ -74,6 +74,15 @@
                 <h1 data-i18n="blog_post_1_header_title">로또 번호 생성기의 오해와 진실</h1>
                 <a href="../index.html" class="main-link" data-i18n="blog_post_1_return_home">홈으로 돌아가기</a>
             </div>
+            <div class="share-buttons-container">
+                <p class="subtitle">이 글을 친구들과 공유하세요!</p>
+                <div class="share-buttons">
+                    <button class="share-button facebook" onclick="shareOnFacebook()"><img src="../icons/facebook.svg" alt="Share on Facebook"></button>
+                    <button class="share-button twitter" onclick="shareOnTwitter()"><img src="../icons/twitter.svg" alt="Share on Twitter"></button>
+                    <button class="share-button kakaotalk" onclick="shareOnKakaoTalk()"><img src="../icons/kakaotalk.svg" alt="Share on KakaoTalk"></button>
+                    <button class="share-button copy-clipboard" onclick="copyToClipboard()"><img src="../icons/clipboard.svg" alt="Copy to Clipboard"></button>
+                </div>
+            </div>
 
             <p class="subtitle" data-i18n="blog_post_1_date">LUCKY PICK | Published on: 2024-02-01 | Last Updated on: 2026-02-03</p>
 
@@ -131,6 +140,31 @@
                 document.documentElement.setAttribute('data-theme', savedTheme);
             }
         });
+
+        function shareOnFacebook() {
+          const url = encodeURIComponent(window.location.href);
+          window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        }
+
+        function shareOnTwitter() {
+          const url = encodeURIComponent(window.location.href);
+          const text = encodeURIComponent(document.title);
+          window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        }
+
+        function copyToClipboard() {
+          navigator.clipboard.writeText(window.location.href).then(() => {
+            alert('URL이 클립보드에 복사되었습니다!');
+          }, () => {
+            alert('URL 복사에 실패했습니다.');
+          });
+        }
+
+        function shareOnKakaoTalk() {
+            // Kakao SDK and app key are required for this to work.
+            // I will just show an alert for now.
+            alert('카카오톡 공유 기능은 현재 준비 중입니다.');
+        }
     </script>
     <link rel="stylesheet" href="../style.css">
 </body>
