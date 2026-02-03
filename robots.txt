@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /.venv/
+Disallow: /.vscode/
+Disallow: /firebase-debug.log
+Disallow: /index_test.html
+
+Sitemap: https://product-builder-lecture-public.pages.dev/sitemap.xml
